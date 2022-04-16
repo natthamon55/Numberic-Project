@@ -1,0 +1,31 @@
+#ref : https://github.com/lukepolson/youtube_channel/blob/main/Python%20Tutorial%20Series/odes1.ipynb
+import numpy as np
+import matplotlib.pyplot as plt
+import scipy as sp
+
+#Solve differential equation. There are two main solvers in scipy
+from scipy.integrate import odeint #Pretty classic, uses a particular solve called lsoda from the FORTRAN library odepack
+from scipy.integrate import solve_ivp #More customizable, can choose from a list of possible solvers
+
+def f(t, v):
+  dydt = 3*v**2 - 5 #y' = 3v**2-5
+  return dydt
+  
+v0 = 0
+t = np.linspace(0, 1, 100) #solve 100 ครั้งระหว่าง 0-1 เพื่อต้องการมา plot solution
+
+sol_m1 = odeint(f, y0=v0, t=t, tfirst=True) #y0 คือ initial condotion เป็นพารามิเตอร์
+sol_m2 = solve_ivp(f, t_span=(0,max(t)), y0=[v0], t_eval=t) #t_span คือเราจะใช้เวลาในการsolve เท่าไหร่ระหว่าง0-1
+
+v_sol_m1 = sol_m1.T[0]
+v_sol_m2 = sol_m2.y[0]
+
+print('odeint ans : ',v_sol_m1)
+print('-------------------------------------------------------------------------------------')
+print('solve_ivp ans  : ',v_sol_m2)
+
+plt.plot(t, v_sol_m1)
+plt.plot(t, v_sol_m2, '--')
+plt.ylabel('y(t)', fontsize=22)
+plt.xlabel('t', fontsize=22)
+plt.show()
