@@ -12,7 +12,7 @@ def f(t, v):
   return dydt
   
 v0 = 0 #the initial condition
-t = np.linspace(0, 1, 100) #solve 100 ครั้งระหว่าง 0-10 เพื่อต้องการมา plot solution
+t = np.linspace(0, 1, 100) #solve 100 ครั้งระหว่าง 0-1 เพื่อต้องการมา plot solution
 
 start_odeint = time.time()
 sol_m1 = odeint(f, y0=v0, t=t, tfirst=True) #y0 คือ initial condition เป็นพารามิเตอร์
