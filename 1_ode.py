@@ -1,3 +1,4 @@
+#First ODE
 #ref : https://github.com/lukepolson/youtube_channel/blob/main/Python%20Tutorial%20Series/odes1.ipynb
 import numpy as np
 import matplotlib.pyplot as plt
@@ -14,11 +15,13 @@ def f(t, v):
 v0 = 0 #the initial condition
 t = np.linspace(0, 1, 100) #solve 100 ครั้งระหว่าง 0-1 เพื่อต้องการมา plot solution
 
+#odeint method
 start_odeint = time.time()
 sol_m1 = odeint(f, y0=v0, t=t, tfirst=True) #y0 คือ initial condition เป็นพารามิเตอร์
 v_sol_m1 = sol_m1.T[0]
 end_odeint = time.time()
 
+#solve_ipn method
 start_ivp = time.time()
 sol_m2 = solve_ivp(f, t_span=(0,max(t)), y0=[v0], t_eval=t) #t_span คือเราจะใช้เวลาในการsolve เท่าไหร่ระหว่าง0-1
 v_sol_m2 = sol_m2.y[0]
