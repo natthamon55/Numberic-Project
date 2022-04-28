@@ -18,7 +18,7 @@ prep_sw_side <- function(expr){
     expr <- "\\+"
   }
   else if(str_detect(expr,"\\+")){
-    expr <- "-"
+    expr <- "\\-"
   }
   expr
 }
@@ -43,7 +43,7 @@ for (i in sort(diff,decreasing = TRUE)){
 print(expr_arr)
 parm <- expr_arr
 y0 <- c(0);
-times <- seq(from=0,t=1,by=0.01)
+times <- seq(from=0,t=10,by=10**-3)
 
 start_odeint = now()
 sol_odeint <- ode(y0,times,f,parms=parm)
@@ -53,7 +53,7 @@ par(mfrow = c(2, 1))
 plot(times,sol_odeint[,2],type="l",main="First Order Differentation",xlab="t",ylab="Y")
 
 start_ivp = now()
-sol_ivp <- ode(y0,times,f,parms=NULL,method="rk4",)
+sol_ivp <- ode(y0,times,f,parms=parm,method="rk4",)
 end_ivp = now()
 
 points(times,sol_ivp[,2],col="orange",pch=3)

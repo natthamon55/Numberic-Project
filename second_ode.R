@@ -40,9 +40,9 @@ for (i in sort(diff,decreasing = TRUE)){
   expr <- paste(right_expr,left_expr,collapse = '')
   expr_arr=append(expr_arr,(parse(text=expr)))
 }
-
+print(expr_arr)
 parms <- c(b,c,expr_arr);
-times <- seq(from=0,t=10,by=0.1)
+times <- seq(from=0,t=100,by=0.1)
 start <- now()
 sol <- ode(y0,times,f,parms)
 end <- now()
