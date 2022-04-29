@@ -49,13 +49,14 @@ def calculate(expr='', cond='', time_start=0,time_end=1,points=100):
 
     #solve_ipn method
     start_ivp = time.time()
-    sol_m2 = solve_ivp(lambda t,y:f(t=t,y=y,all_result=all_result), t_span=(0,max(t)), y0=cond, t_eval=t,args=(all_result,)) #t_span คือเราจะใช้เวลาในการsolve เท่าไหร่ระหว่าง0-1
+    sol_m2 = solve_ivp(lambda t,y,all_result:f(t=t,y=y,all_result=all_result), t_span=(0,max(t)), y0=cond, t_eval=t,args=(all_result,)) #t_span คือเราจะใช้เวลาในการsolve เท่าไหร่ระหว่าง0-1
     end_ivp = time.time()
 
     print("Odeint uses time : {} s".format(end_odeint-start_odeint))
     #print("solve_ivp uses time : {} s".format(end_ivp-start_ivp))
 
     #plot 2 methods
+    plt.figure(figsize=(4,3))
     for i in range(len(sol_m1.T)):
         plt.plot(t, sol_m1.T[i], label="odeint order {}".format(i))
         plt.plot(t, sol_m2.y[i], '+',label="solve_ivp order {}".format(i))
@@ -63,8 +64,10 @@ def calculate(expr='', cond='', time_start=0,time_end=1,points=100):
     plt.xlabel('t', fontsize=22)
     plt.legend()
     plt.savefig('ode_method.png')
+    
     plt.clf()
     #plot error
+    plt.figure(figsize=(4,3))
     for i in range(len(sol_m1.T)):
         err = np.abs(sol_m1.T[i]-sol_m2.y[i])
         plt.semilogy(t,err)
@@ -74,6 +77,8 @@ def calculate(expr='', cond='', time_start=0,time_end=1,points=100):
     plt.title("Error in ode")
     plt.legend()
     plt.savefig('ode_err.png')
+    
     plt.clf()
+
     return (str(end_odeint-start_odeint),str(end_ivp-start_ivp))
 calculate(expr="y'-3*y**2=-5",cond="0")
