@@ -131,7 +131,7 @@ row2 <- ggroup(cont=g)
 bt <- gbutton(container=row2,text = "Calculate")
 
 row3 <- ggroup(cont=g)
-img <- gimage("result.png",cont=g)
+img <- gimage(filename = "",cont=g)
 
 addHandlerClicked(bt, function(...) {          ## adding a callback to an event
   expr <- svalue(insert_f)
@@ -141,6 +141,7 @@ addHandlerClicked(bt, function(...) {          ## adding a callback to an event
   step <- (stop-start)/as.numeric(svalue(point))
   time_range <- seq(from=start, to=stop, by=step)
   cal(expr,cond,time_range,npoint=as.numeric(svalue(point)))
+  img$set_value("result.png")
   
 })
 
