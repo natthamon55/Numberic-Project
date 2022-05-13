@@ -107,6 +107,7 @@ cal = function(eq,cond,t,npoint){
   print(paste("Odeint R used in",end_odeint-start_odeint))
   print(paste("Solve_ivp used in",end_ivp-start_ivp))
   dev.off()
+  c(end_odeint-start_odeint,end_ivp-start_ivp)
 }
 
 
@@ -140,9 +141,15 @@ addHandlerClicked(bt, function(...) {          ## adding a callback to an event
   stop <- as.numeric(svalue(end_t))
   step <- (stop-start)/as.numeric(svalue(point))
   time_range <- seq(from=start, to=stop, by=step)
-  cal(expr,cond,time_range,npoint=as.numeric(svalue(point)))
+  time_result <- cal(expr,cond,time_range,npoint=as.numeric(svalue(point)))
   img$set_value("result.png")
-  
+  t_odeint$set_value(as.character(time_result[1]))
+  t_solveivp$set_value(as.character(time_result[2]))
 })
 
+row4 <- ggroup(cont=g)
+t_odeint_title <- glabel('Odeint :',cont = row4)
+t_odeint<- glabel('0',cont = row4)
+t_solveivp_title <- glabel('Solve ivp :',cont = row4)
+t_solveivp<- glabel('0',cont = row4)
 visible(w) <- TRUE                            ## a method call
