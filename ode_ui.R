@@ -60,7 +60,6 @@ cal = function(eq,cond,t,npoint){
   firstPlot <- TRUE
   colors <- c()
   name_title <- c()
-  par(mfrow = c(2, 1))
   num_col <- ncol(sol_odeint)
   for(idx in 2:num_col){
     color <- randomColor()
@@ -83,16 +82,16 @@ cal = function(eq,cond,t,npoint){
     colors <- append(colors,color)
   }
   legend("topright",legend=name_title,fill=colors)
-  
+  dev.off()
   firstPlot <- TRUE
   colors <- c()
   name_title <- c()
-
+  png("error.png")
   for(idx in 2:num_col){
     color <- randomColor()
     err = abs(sol_odeint[,idx]-sol_ivp[,idx])
     if(firstPlot){
-      plot(times,err,type="l",main="Error between 2 method",xlab="t",ylab="Y",col=color)
+      plot(times,err,type="l",main="Error between 2 method",xlab="t",ylab="Y",col=color,log='y')
       firstPlot <- FALSE
     }
     else{
@@ -132,8 +131,8 @@ row2 <- ggroup(cont=g)
 bt <- gbutton(container=row2,text = "Calculate")
 
 row3 <- ggroup(cont=g)
-img <- gimage(filename = "",cont=g)
-
+img <- gimage(filename = "",cont=row3)
+err_img <- gimage(filename = "",cont=row3)
 addHandlerClicked(bt, function(...) {          ## adding a callback to an event
   expr <- svalue(insert_f)
   cond <- as.numeric(unlist(strsplit(svalue(insert_cond),",")))
@@ -143,6 +142,7 @@ addHandlerClicked(bt, function(...) {          ## adding a callback to an event
   time_range <- seq(from=start, to=stop, by=step)
   time_result <- cal(expr,cond,time_range,npoint=as.numeric(svalue(point)))
   img$set_value("result.png")
+  err_img$set_value("error.png")
   t_odeint$set_value(as.character(time_result[1]))
   t_solveivp$set_value(as.character(time_result[2]))
 })
